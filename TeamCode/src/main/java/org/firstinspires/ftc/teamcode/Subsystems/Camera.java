@@ -255,28 +255,35 @@ public class Camera {
 
     }
 
-
-    OpenGLMatrix lastPosition;
+    final static double[] nullreturn = {0,0,0,0,0,0};
     public double[] getStoneData(){
         // check all the trackable targets to see which one (if any) is visible.
         targetVisible = false;
         for (VuforiaTrackable trackable : allTrackables) {
             if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+                targetVisible = true;
+
+                // getUpdatedRobotLocation() will return null if no new information is available since
+                // the last time that call was made, or if the trackable is not currently visible.
                 OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
                 if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
                 }
-                VectorF translation = lastPosition.getTranslation();
-                Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-
-                double[] returnable = {translation.get(0), translation.get(1), translation.get(2), rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle};
-                return returnable;
+                break;
             }
         }
-        if (lastPosition == null){
 
+
+        // Provide feedback as to where the robot is located (if we know).
+        if (targetVisible) {
+            // express position (translation) of robot in inches.
+            VectorF translation = lastLocation.getTranslation();
+            // express the rotation of the robot in degrees.
+            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+            double[] output = {translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch,
+                    rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle};
+            return output;
         }
-        double[] nullreturn = {0,0,0,0,0,0};
         return nullreturn;
     }
 

@@ -72,6 +72,10 @@ public class AutoDrive extends MechenumDrive {
         Drive(EncPID.getOutput(),0,0);
     }
 
+    public void DriveSidewaysToPosition(){
+        Drive(0, EncPID.getOutput(),0);
+    }
+
     public void TurnToHeading(){
         Drive(0, 0, GyroPID.getOutput());
     }
