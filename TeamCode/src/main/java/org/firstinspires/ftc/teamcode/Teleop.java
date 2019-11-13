@@ -18,6 +18,7 @@ public class Teleop extends LinearOpMode {
     final static Lift lift = new Lift();
     final static TapeMeasure tapeMeasure = new TapeMeasure();
     final static Claw claw = new Claw();
+    Camera camera = new Camera();
 
     Servo foundationGrab;
 
@@ -33,6 +34,7 @@ public class Teleop extends LinearOpMode {
 
         this.Initialize();
         waitForStart();
+        //camera.activateTracking();
 
         while (opModeIsActive()){
             drive.Drive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
@@ -49,8 +51,7 @@ public class Teleop extends LinearOpMode {
             }
             foundationGrab.setPosition(toggle ? 0 : 1);
 
-            telemetry.addLine("Drive Encoders: ")
-            .addData("FL", drive.getEncoders());
+            //telemetry.addData("Encoder", tapeMeasure.ExtendEnc());
 
             telemetry.update();
             idle();
@@ -87,5 +88,6 @@ public class Teleop extends LinearOpMode {
         tapeMeasure.init(init_AimTapeMeasure, init_DropTapeMeasure, init_TapeMeasure);
         lift.init(init_Lift);
         drive.Initialize(init_drive);
+        //camera.init(hardwareMap.get(WebcamName.class, "Webcam 1"),hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()));
     }
 }

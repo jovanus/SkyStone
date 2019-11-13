@@ -32,4 +32,8 @@ public class TapeMeasure {
     public void Drop(boolean drop){
         this.DropTapeMeasure.setPosition(drop ? 1 : 0);
     }
+
+    public int ExtendEnc(){
+        return TapeMeasure.getCurrentPosition();
+    }
 }

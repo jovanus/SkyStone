@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 
 public class AutoDrive extends MechenumDrive {
 
     public IMU imu = new IMU();
 
-    public PID EncPID = new PID(.33,0,0,20) {
+    public PID EncPID = new PID(.05,0,0.002,20) {
         @Override
         protected double getInput() {
             return getPosition() - resetValue;
@@ -20,7 +21,7 @@ public class AutoDrive extends MechenumDrive {
         }
     };
 
-    public PID GyroPID = new PID(.033,0,0,20) {
+    public PID GyroPID = new PID(.025,0,0,20) {
         @Override
         protected double getInput() {
             return imu.getAngles().firstAngle - resetvalue;
@@ -69,11 +70,11 @@ public class AutoDrive extends MechenumDrive {
     }
 
     public void DriveToPosition(){
-        Drive(EncPID.getOutput(),0,0);
+        Drive(Range.clip(EncPID.getOutput(),-1,1),0, GyroPID.getOutput());
     }
 
     public void DriveSidewaysToPosition(){
-        Drive(0, EncPID.getOutput(),0);
+        Drive(0, -EncPID.getOutput(), GyroPID.getOutput());
     }
 
     public void TurnToHeading(){
@@ -98,6 +99,10 @@ public class AutoDrive extends MechenumDrive {
 
     public boolean isPositionInTolerance(){
         return Math.abs(EncPID.getError()) < 1;
+    }
+
+    public boolean isSidePositionInTolerance(){
+        return Math.abs(EncPID.getError()) < 2;
     }
 
     public void setHeading(double Angle){

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 public class Claw {
@@ -14,6 +15,7 @@ public class Claw {
     public void init(CRServo grabClaw, CRServo rotateClaw){
         GrabClaw = grabClaw;
         RotateClaw = rotateClaw;
+        RotateClaw.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void grabClaw(double power){

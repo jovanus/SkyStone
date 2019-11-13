@@ -68,9 +68,9 @@ public class MechenumDrive {
         return DriveM[0].getCurrentPosition();
     }
 
-    public final static double ENC_SCALE = Math.PI * 4 / ( 8 * 280);
+    public final static double ENC_SCALE = 1/59;
     public double getPosition(){
-        return getEncoders() * ENC_SCALE;
+        return getEncoders() / 59;
     }
 
     public boolean HasEncodersReset(){
@@ -78,9 +78,8 @@ public class MechenumDrive {
     }
 
     public void SetMode(DcMotor.RunMode SMode){
-        for (DcMotor i:
-             DriveM) {
-            i.setMode(SMode);
+        for (int i = 0; i < DriveM.length; i++) {
+            DriveM[i].setMode(SMode);
         }
     }
 
