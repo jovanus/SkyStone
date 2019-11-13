@@ -10,9 +10,11 @@ public class BlueFoundation extends BaseAuto {
         Initialize_nocam();
         waitForStart();
         Drive.EnableSensors();
+        Drive.ResetSensors();
+        tapeMeasure.ResetEnc();
 
         // Drive to be in position for reeling in foundation
-        DrivetoPosition(12);
+        DrivetoPosition(10);
 
         // Extend to foundation
         PositionTapeMeasure(-6750);
@@ -20,6 +22,9 @@ public class BlueFoundation extends BaseAuto {
         sleep(1000);
         PositionTapeMeasure(-100);
         tapeMeasure.Drop(false);
+
+        // Move Away from wall before claw release
+        DrivetoPosition(0);
 
         // Release arm before driving under bridge
         OpenClaw();

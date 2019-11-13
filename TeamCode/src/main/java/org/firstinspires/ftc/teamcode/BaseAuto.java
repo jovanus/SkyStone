@@ -86,14 +86,14 @@ public abstract class BaseAuto extends LinearOpMode {
     }
 
     protected void OpenClaw() {
-        claw.manual(-1, 0);
-        sleep(2000);
+        claw.manual(1, 0);
+        sleep(3000);
         claw.manual(0,0);
     }
 
     protected void PositionTapeMeasure(int Position){
         int travelDirection = Position - tapeMeasure.ExtendEnc();
-        while(tapeMeasure.ExtendEnc() > Position && opModeIsActive()){
+        while(Math.abs(Position - tapeMeasure.ExtendEnc()) > 20 && opModeIsActive()){
             tapeMeasure.Extend(Math.signum(travelDirection));
         }
         tapeMeasure.Extend(0);

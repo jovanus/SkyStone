@@ -36,4 +36,10 @@ public class TapeMeasure {
     public int ExtendEnc(){
         return TapeMeasure.getCurrentPosition();
     }
+
+    public void ResetEnc() {
+        TapeMeasure.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        TapeMeasure.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
 }

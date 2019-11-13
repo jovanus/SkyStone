@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Subsystems.TapeMeasure;
+
 @Autonomous(name = "Red Foundation")
 
 public class RedFoundation extends BaseAuto {
@@ -10,9 +12,11 @@ public class RedFoundation extends BaseAuto {
         Initialize_nocam();
         waitForStart();
         Drive.EnableSensors();
+        Drive.ResetSensors();
+        tapeMeasure.ResetEnc();
 
         // Drive to be in position for reeling in foundation
-        DrivetoPosition(-12);
+        DrivetoPosition(-13);
 
         // Extend to foundation
         PositionTapeMeasure(-6750);
